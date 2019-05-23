@@ -10,6 +10,7 @@ import UIKit
 import SceneKit
 import ARKit
 import AVFoundation
+import AVKit
 import SpriteKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
@@ -18,22 +19,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     var videoPaused: Bool = false
     var videoAdded: Bool = false
+    var videoWasFullscreen: Bool = false
+    var videoTimeAfterFullscreen: CMTime?
+    var currentVideoReferenceImage: String?
+    var videoReferenceImageBeforeFullscreen: String?
     var videoAVPlayer: AVPlayer?
     var videoAVNode: SCNNode?
+    var videoAVController: AVPlayerViewController?
+    var intTaps: Int32 = 0
+    var tapTick: Int32 = 0
     
     //Dictionary for the video paths
     let videoPaths = ["maxresdefault": "Waterfall",
                       "referenceimage2": "Network",
                       "lamborghini": "AutoTech",
-                      "krisshirt": "Waterfall",
-                      "picture": "Waterfall"]
+                      "schoolimage": "recruitment",
+                      "ramzi": "AutoCollision"]
     
     //Dictionary for the shop names
     let shopNames = ["maxresdefault": "Programming and Web Development",
                      "referenceimage2": "Engineering",
                      "lamborghini": "Automotive Technology",
-                     "krisshirt": "Kris Troy Ercalano Karter",
-                     "picture": "testing"]
+                     "schoolimage": "",
+                     "ramzi": "Auto Collision"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,8 +116,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         textNode.scale = SCNVector3(x: 0.0015, y: 0.0015, z: 0.0015)
         textNode.geometry = textLabel
         textNode.eulerAngles.x = -.pi/2
-        textNode.simdLocalTranslate(by: float3(-(textNode.boundingBox.max.x * 0.0015)/2, 0.055, 0))
-        print(textLabel.boundingBox.max.x/2)
+        textNode.simdLocalTranslate(by: float3(-(textNode.boundingBox.max.x * 0.0015)/2, Float(referenceImage.physicalSize.height/2) - 0.01, 0))
         
         node.addChildNode(textNode)
         videoScene.addChild(videoNode)
@@ -123,47 +130,94 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         videoAVNode = node
     }
     
+    func fullScreenVideo() {
+        DispatchQueue.main.async {
+            self.videoAVPlayer!.pause()
+            self.videoReferenceImageBeforeFullscreen = self.currentVideoReferenceImage
+            self.videoWasFullscreen = true
+            self.videoAVController = AVPlayerViewController()
+            self.videoAVController!.player = self.videoAVPlayer
+            self.videoAVController!.exitsFullScreenWhenPlaybackEnds = true
+            self.present(self.videoAVController!, animated: true) {
+                self.videoAVController!.player!.play()
+            }
+        }
+    }
+    
+    func pauseVideo() {
+        //print("pause video")
+        //Pause video
+        if videoAVPlayer != nil {
+            if videoPaused {
+                videoPaused = false
+                videoAVPlayer!.play()
+            } else {
+                videoPaused = true
+                videoAVPlayer!.pause()
+            }
+        }
+    }
+    
     //Every millisecond
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         guard let imageAnchor = anchor as? ARImageAnchor else {return}
+        //print(videoAVController!.player!)
         if imageAnchor.isTracked {
+            currentVideoReferenceImage = imageAnchor.referenceImage.name
             if videoAdded == false { //One video in the scene at a time
                 videoAdded = true
-                guard let imageAnchor = anchor as? ARImageAnchor else {return}
                 let referenceImage = imageAnchor.referenceImage
                 //Get video name and text by image name
                 let referencePhoto = referenceImage.name!
                 createVideoNode(anchor: imageAnchor, didAdd: node, videoName: videoPaths[referencePhoto]!, text: shopNames[referencePhoto]!)
+                
+                //only resume time if its the same video
+                if (videoWasFullscreen == true) && (referencePhoto == videoReferenceImageBeforeFullscreen) {
+                    videoWasFullscreen = false
+                    videoAVPlayer?.seek(to: (videoAVController?.player!.currentTime())!)
+                }
+            }
+            //Tap handler
+            if (intTaps >= 1) {
+                tapTick += 1
+            }
+            if (tapTick > 20) {
+                if (intTaps == 1) {
+                    print("single tapped pause video")
+                    pauseVideo()
+                } else if (intTaps == 2) {
+                    print("double tapped fullscreen video")
+                    fullScreenVideo()
+                }
+                tapTick = 0
+                intTaps = 0
             }
             //print("tracking")
         } else {
+            currentVideoReferenceImage = nil
             //print("not tracking")
             //Reset variables
+            intTaps = 0
+            tapTick = 0
             videoAdded = false
             videoPaused = false
             if videoAVNode != nil {
                 videoAVPlayer!.pause()
-                videoAVNode?.enumerateChildNodes() {node,_ in //Optimize app by deleting other nodes
+                videoAVNode!.enumerateChildNodes() {node,_ in //Optimize app by deleting other nodes
                     node.removeFromParentNode()
                 }
                 videoAVPlayer = nil
             }
         }
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             if touch.view == self.sceneView {
-                //print("pause video")
-                //Pause video
-                if videoAVPlayer != nil {
-                    if videoPaused {
-                        videoPaused = false
-                        videoAVPlayer!.play()
-                    } else {
-                        videoPaused = true
-                        videoAVPlayer!.pause()
+                if videoAdded {
+                    intTaps += 1
+                    if intTaps >= 1 {
+                        tapTick = 0
                     }
                 }
             }
