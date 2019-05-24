@@ -17,6 +17,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     //Initialize variables
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var instructionsFrame: UIView!
+    @IBOutlet weak var instructionsButton: UIButton!
+    @IBOutlet weak var statusLabel: UILabel!
+    
     var videoPaused: Bool = false
     var videoAdded: Bool = false
     var videoWasFullscreen: Bool = false
@@ -32,16 +36,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     //Dictionary for the video paths
     let videoPaths = ["maxresdefault": "Waterfall",
                       "referenceimage2": "Network",
-                      "lamborghini": "AutoTech",
-                      "schoolimage": "recruitment",
-                      "ramzi": "AutoCollision"]
+                      "lamborghini": "AutoTech_compressed",
+                      "schoolimage": "recruitment_compressed",
+                      "ramzi": "AutoCollision_compressed",
+                      "gltech": "mahjongcat"]
     
     //Dictionary for the shop names
     let shopNames = ["maxresdefault": "Programming and Web Development",
                      "referenceimage2": "Engineering",
                      "lamborghini": "Automotive Technology",
-                     "schoolimage": "",
-                     "ramzi": "Auto Collision"]
+                     "schoolimage": "Recruitment",
+                     "ramzi": "Auto Collision and Repair",
+                     "gltech": "Mahjong Cat"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,13 +58,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         
         // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
+        //sceneView.showsStatistics = true
         
         // Create a new scene
         let scene = SCNScene(named: "art.scnassets/ship.scn")!
         
         // Set the scene to the view
         sceneView.scene = scene
+        instructionsFrame.layer.cornerRadius = 10
+        statusLabel.layer.cornerRadius = 10
+        statusLabel.layer.masksToBounds = true
+       // print(okButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +78,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let configuration = ARImageTrackingConfiguration()
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {fatalError("Missing AR Resources")}
         configuration.trackingImages = referenceImages
-        configuration.maximumNumberOfTrackedImages = 1
+        configuration.maximumNumberOfTrackedImages = 2
         
         // Run the view's session
         sceneView.session.run(configuration)
@@ -139,9 +149,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             self.videoAVController!.player = self.videoAVPlayer
             self.videoAVController!.exitsFullScreenWhenPlaybackEnds = true
             self.present(self.videoAVController!, animated: true) {
-                self.videoAVController!.player!.play()
+                if !self.videoPaused {
+                    self.videoAVController!.player!.play()
+                } else {
+                    self.videoAVController!.player!.pause()
+                }
+                
             }
         }
+    }
+    
+    @IBAction func okButton(_ sender: Any) {
+        instructionsFrame.isHidden = true
+        print("yo")
     }
     
     func pauseVideo() {
@@ -175,22 +195,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 if (videoWasFullscreen == true) && (referencePhoto == videoReferenceImageBeforeFullscreen) {
                     videoWasFullscreen = false
                     videoAVPlayer?.seek(to: (videoAVController?.player!.currentTime())!)
+                    DispatchQueue.main.async{
+                        self.videoAVController!.removeFromParent()
+                    }
                 }
             }
             //Tap handler
             if (intTaps >= 1) {
                 tapTick += 1
             }
-            if (tapTick > 20) {
+            if (tapTick > 17) {
                 if (intTaps == 1) {
                     print("single tapped pause video")
                     pauseVideo()
+                    print(videoPaused)
+                    DispatchQueue.main.async{self.statusLabel.isHidden = !self.videoPaused}
                 } else if (intTaps == 2) {
                     print("double tapped fullscreen video")
                     fullScreenVideo()
                 }
                 tapTick = 0
                 intTaps = 0
+            }
+            //loop
+            if videoAVPlayer!.currentTime() >= videoAVPlayer!.currentItem!.asset.duration {
+                videoAVPlayer?.seek(to: CMTime.zero)
+                videoAVPlayer?.play()
             }
             //print("tracking")
         } else {
@@ -201,6 +231,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             tapTick = 0
             videoAdded = false
             videoPaused = false
+            DispatchQueue.main.async{self.statusLabel.isHidden = true}
             if videoAVNode != nil {
                 videoAVPlayer!.pause()
                 videoAVNode!.enumerateChildNodes() {node,_ in //Optimize app by deleting other nodes

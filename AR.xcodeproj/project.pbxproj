@@ -16,10 +16,13 @@
 		3F4D36C62292DC9A00676F26 /* ARTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D36C52292DC9A00676F26 /* ARTests.swift */; };
 		3F4D36D12292DC9A00676F26 /* ARUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D36D02292DC9A00676F26 /* ARUITests.swift */; };
 		3F57A5E82292EA1800320562 /* target.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F57A5E72292EA1800320562 /* target.jpg */; };
-		3F6EF7642296C66900D83FA6 /* recruitment.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F6EF7632296C66900D83FA6 /* recruitment.mp4 */; };
-		3F6EF7662296C67300D83FA6 /* AutoCollision.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F6EF7652296C67300D83FA6 /* AutoCollision.mp4 */; };
+		3F6EF7682296F4EC00D83FA6 /* picklecat.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F6EF7672296F4EC00D83FA6 /* picklecat.mp4 */; };
+		3F6EF76A2296F4FB00D83FA6 /* cirno.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F6EF7692296F4FB00D83FA6 /* cirno.mp4 */; };
+		3F6EF76C2296F66600D83FA6 /* mahjongcat.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F6EF76B2296F66600D83FA6 /* mahjongcat.mp4 */; };
+		3F8DEE5E2298224B00419ACC /* recruitment_compressed.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F8DEE5D2298224B00419ACC /* recruitment_compressed.mp4 */; };
+		3F8DEE60229822D500419ACC /* AutoCollision_compressed.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F8DEE5F229822D500419ACC /* AutoCollision_compressed.mp4 */; };
+		3F8DEE62229822E000419ACC /* AutoTech_compressed.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3F8DEE61229822E000419ACC /* AutoTech_compressed.mp4 */; };
 		3FCA72C222957167002A3A24 /* Waterfall.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA72C122957167002A3A24 /* Waterfall.mp4 */; };
-		3FCA72C422957179002A3A24 /* AutoTech.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA72C322957179002A3A24 /* AutoTech.mp4 */; };
 		3FD925B8229433250070002D /* Network.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 3FD925B7229432880070002D /* Network.mp4 */; };
 /* End PBXBuildFile section */
 
@@ -56,10 +59,13 @@
 		3F4D36D02292DC9A00676F26 /* ARUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUITests.swift; sourceTree = "<group>"; };
 		3F4D36D22292DC9A00676F26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F57A5E72292EA1800320562 /* target.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = target.jpg; path = ../../../Downloads/target.jpg; sourceTree = "<group>"; };
-		3F6EF7632296C66900D83FA6 /* recruitment.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = recruitment.mp4; sourceTree = "<group>"; };
-		3F6EF7652296C67300D83FA6 /* AutoCollision.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoCollision.mp4; sourceTree = "<group>"; };
+		3F6EF7672296F4EC00D83FA6 /* picklecat.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = picklecat.mp4; sourceTree = "<group>"; };
+		3F6EF7692296F4FB00D83FA6 /* cirno.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cirno.mp4; sourceTree = "<group>"; };
+		3F6EF76B2296F66600D83FA6 /* mahjongcat.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = mahjongcat.mp4; sourceTree = "<group>"; };
+		3F8DEE5D2298224B00419ACC /* recruitment_compressed.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = recruitment_compressed.mp4; sourceTree = "<group>"; };
+		3F8DEE5F229822D500419ACC /* AutoCollision_compressed.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoCollision_compressed.mp4; sourceTree = "<group>"; };
+		3F8DEE61229822E000419ACC /* AutoTech_compressed.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoTech_compressed.mp4; sourceTree = "<group>"; };
 		3FCA72C122957167002A3A24 /* Waterfall.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Waterfall.mp4; sourceTree = "<group>"; };
-		3FCA72C322957179002A3A24 /* AutoTech.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoTech.mp4; sourceTree = "<group>"; };
 		3FD925B7229432880070002D /* Network.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Network.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,11 +151,14 @@
 		3FD925B3229428350070002D /* Videos */ = {
 			isa = PBXGroup;
 			children = (
-				3FCA72C322957179002A3A24 /* AutoTech.mp4 */,
-				3F6EF7652296C67300D83FA6 /* AutoCollision.mp4 */,
-				3F6EF7632296C66900D83FA6 /* recruitment.mp4 */,
+				3F8DEE5F229822D500419ACC /* AutoCollision_compressed.mp4 */,
+				3F8DEE61229822E000419ACC /* AutoTech_compressed.mp4 */,
+				3F6EF7672296F4EC00D83FA6 /* picklecat.mp4 */,
+				3F6EF7692296F4FB00D83FA6 /* cirno.mp4 */,
 				3FCA72C122957167002A3A24 /* Waterfall.mp4 */,
+				3F8DEE5D2298224B00419ACC /* recruitment_compressed.mp4 */,
 				3FD925B7229432880070002D /* Network.mp4 */,
+				3F6EF76B2296F66600D83FA6 /* mahjongcat.mp4 */,
 			);
 			path = Videos;
 			sourceTree = "<group>";
@@ -258,16 +267,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FCA72C422957179002A3A24 /* AutoTech.mp4 in Resources */,
 				3F4D36B12292DC9800676F26 /* art.scnassets in Resources */,
+				3F6EF7682296F4EC00D83FA6 /* picklecat.mp4 in Resources */,
+				3F6EF76A2296F4FB00D83FA6 /* cirno.mp4 in Resources */,
 				3F4D36BB2292DC9900676F26 /* LaunchScreen.storyboard in Resources */,
 				3FCA72C222957167002A3A24 /* Waterfall.mp4 in Resources */,
+				3F6EF76C2296F66600D83FA6 /* mahjongcat.mp4 in Resources */,
+				3F8DEE62229822E000419ACC /* AutoTech_compressed.mp4 in Resources */,
 				3F4D36B82292DC9900676F26 /* Assets.xcassets in Resources */,
 				3F57A5E82292EA1800320562 /* target.jpg in Resources */,
+				3F8DEE5E2298224B00419ACC /* recruitment_compressed.mp4 in Resources */,
 				3FD925B8229433250070002D /* Network.mp4 in Resources */,
-				3F6EF7642296C66900D83FA6 /* recruitment.mp4 in Resources */,
+				3F8DEE60229822D500419ACC /* AutoCollision_compressed.mp4 in Resources */,
 				3F4D36B62292DC9800676F26 /* Main.storyboard in Resources */,
-				3F6EF7662296C67300D83FA6 /* AutoCollision.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
